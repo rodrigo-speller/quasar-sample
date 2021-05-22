@@ -103,28 +103,30 @@ export default class MainLayout extends Vue {
   leftDrawerOpen = false;
   essentialLinks = linksData;
 
-  installPrompt: BeforeInstallPromptEvent | null = null;
+  installPromptEvent: BeforeInstallPromptEvent | null = null;
 
   beforeMount() {
     window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later.
-      this.installPrompt = e as BeforeInstallPromptEvent;
+      this.installPromptEvent = e as BeforeInstallPromptEvent;
     });
   }
 
   get allowInstall()
   {
-    return !this.isStandalone && this.installPrompt
+    return !this.isStandalone && (this.installPromptEvent || this.isIOS)
+  }
+
+  get isIOS() {
+    const agent = window.navigator.userAgent.toLowerCase();
+    return /\b(macintosh|ipad|iphone|ipod)\b/.test(agent);
   }
 
   get isStandalone()
   {
-    const agent = window.navigator.userAgent.toLowerCase();
-    const ios = /\b(macintosh|ipad|iphone|ipod)\b/.test(agent);
-
-    if (ios)
+    if (this.isIOS)
       return ('standalone' in window.navigator) && ((window.navigator as SafariNavigator).standalone) || false;
 
     return (window.matchMedia('(display-mode: standalone)').matches);
@@ -132,10 +134,14 @@ export default class MainLayout extends Vue {
 
   async install()
   {
-    console.log([this.isStandalone, this.installPrompt])
+    if (this.isIOS)
+    {
+      alert('Tap "Share" > "Add to Home Screen" to install.')
+      return;
+    }
 
-    let install = this.installPrompt!;
-    this.installPrompt = null;
+    let install = this.installPromptEvent!;
+    this.installPromptEvent = null;
 
     // prompt
     install.prompt();
