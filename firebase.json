@@ -1,10 +1,17 @@
 {
   "hosting": {
-    "public": "pages",
+    "public": "dist/pwa",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "headers": [{
+      "source": "*",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "no-cache"
+      } ]
+    }]
   }
 }
