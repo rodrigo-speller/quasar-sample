@@ -6,15 +6,19 @@
         {{ todo.id }} - {{ todo.content }}
       </li>
     </ul>
+    <p>Test</p>
     <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
     <p>Active: {{ active ? 'yes' : 'no' }}</p>
-    <p>Clicks on todos: {{ clickCount }}</p>
+    <p>Clicks on todos: {{ count }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
+import counter from '../controllers/CounterController';
+
+setInterval(() => counter.increment(), 1000);
 
 @Component
 export default class ClassComponent extends Vue {
@@ -23,10 +27,12 @@ export default class ClassComponent extends Vue {
   @Prop({ type: Object, required: true }) readonly meta!: Meta;
   @Prop(Boolean) readonly active!: boolean;
 
-  clickCount = 0;
-
   increment() {
-    this.clickCount += 1;
+    counter.increment();
+  }
+
+  get count() {
+    return counter.count;
   }
 
   get todoCount() {
