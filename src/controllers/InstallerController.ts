@@ -1,16 +1,5 @@
 import { Vue } from 'vue-property-decorator'
 
-interface BeforeInstallPromptEvent extends Event
-{
-  prompt(): Promise<void>;
-  userChoice: Promise<InstallPromptUserChoiceResult>;
-}
-
-interface InstallPromptUserChoiceResult {
-  outcome: "accepted" | "dismissed",
-  platform: ""
-}
-
 class InstallerController
 {
     readonly isIOS: boolean;
@@ -72,6 +61,17 @@ class InstallerController
         console.log('User dismissed the A2HS prompt');
       }
     }
+}
+
+interface BeforeInstallPromptEvent extends Event
+{
+  prompt(): Promise<void>;
+  userChoice: Promise<InstallPromptUserChoiceResult>;
+}
+
+interface InstallPromptUserChoiceResult {
+  outcome: "accepted" | "dismissed",
+  platform: ""
 }
 
 export default Vue.observable(new InstallerController());
