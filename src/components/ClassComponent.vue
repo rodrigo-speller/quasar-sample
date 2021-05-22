@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
-import counter from '../controllers/CounterController';
+import counter from 'src/services/CounterService';
 
 setInterval(() => counter.increment(), 1000);
 

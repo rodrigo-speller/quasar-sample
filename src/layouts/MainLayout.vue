@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue'
-import installer from '../controllers/InstallerController'
+import installer from 'src/services/InstallerService'
 
 const linksData = [
   {
