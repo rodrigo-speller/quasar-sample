@@ -14,8 +14,7 @@
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn v-if="allowInstall" color="white" text-color="black" @click="install">Install</q-btn>
       </q-toolbar>
     </q-header>
 
@@ -41,6 +40,7 @@
     </q-drawer>
 
     <q-page-container>
+
       <router-view />
     </q-page-container>
   </q-layout>
@@ -102,5 +102,64 @@ import { Vue, Component } from 'vue-property-decorator';
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
   essentialLinks = linksData;
+
+  installPrompt: BeforeInstallPromptEvent | null = null;
+
+  beforeMount() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      this.installPrompt = e as BeforeInstallPromptEvent;
+    });
+  }
+
+  get allowInstall()
+  {
+    return !this.isStandalone && this.installPrompt
+  }
+
+  get isStandalone()
+  {
+    const agent = window.navigator.userAgent.toLowerCase();
+    const ios = /\b(macintosh|ipad|iphone|ipod)\b/.test(agent);
+
+    if (ios)
+      return ('standalone' in window.navigator) && ((window.navigator as SafariNavigator).standalone) || false;
+
+    return (window.matchMedia('(display-mode: standalone)').matches);
+  }
+
+  async install()
+  {
+    console.log([this.isStandalone, this.installPrompt])
+
+    let install = this.installPrompt!;
+    this.installPrompt = null;
+
+    // prompt
+    install.prompt();
+
+    // Wait for the user to respond to the prompt
+    let choice = await install.userChoice;
+
+    if (choice.outcome === 'accepted') {
+      console.log('User accepted the A2HS prompt');
+    } else {
+      console.log('User dismissed the A2HS prompt');
+    }
+  }
 }
+
+interface BeforeInstallPromptEvent extends Event
+{
+  prompt(): Promise<void>;
+  userChoice: Promise<InstallPromptUserChoiceResult>;
+}
+
+interface InstallPromptUserChoiceResult {
+  outcome: "accepted" | "dismissed",
+  platform: ""
+}
+
 </script>
