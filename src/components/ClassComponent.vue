@@ -11,6 +11,12 @@
     <p>Clicks on todos: {{ count }}</p>
     <p>Offline: {{ isOffline }}</p>
     <p>Updated: {{ isUpdated }}</p>
+    <div>
+      <q-input label="Input some text" v-model="localStorageValue" />
+      <q-btn @click="localStorageValue = ''">Clear input</q-btn>
+      <q-btn @click="saveLocalStorage">Save</q-btn>
+      <q-btn @click="loadLocalStorage">Load</q-btn>
+    </div>
   </div>
 </template>
 
@@ -29,6 +35,16 @@ export default class ClassComponent extends Vue {
   @Prop({ type: Array, default: () => [] }) readonly todos!: Todo[];
   @Prop({ type: Object, required: true }) readonly meta!: Meta;
   @Prop(Boolean) readonly active!: boolean;
+
+  localStorageValue: string = '';
+
+  saveLocalStorage() {
+    localStorage.setItem('some-text', this.localStorageValue);
+  }
+
+  loadLocalStorage() {
+    this.localStorageValue = localStorage.getItem('some-text') ?? '';
+  }
 
   increment() {
     counter.increment();
