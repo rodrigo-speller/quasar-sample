@@ -20,7 +20,6 @@ module.exports = configure(function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v1.quasar.dev/quasar-cli/boot-files
     boot: [
-      
       'axios',
     ],
 
@@ -110,7 +109,7 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v1.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
+      workboxPluginMode: 'InjectManifest', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {
       }, // only for GenerateSW
       manifest: {

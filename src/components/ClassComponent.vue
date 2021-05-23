@@ -9,20 +9,19 @@
     <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
     <p>Active: {{ active ? 'yes' : 'no' }}</p>
     <p>Clicks on todos: {{ count }}</p>
-    <p>Offline: {{ offline }}</p>
-    <p>Updated: {{ updated }}</p>
+    <p>Offline: {{ isOffline }}</p>
+    <p>Updated: {{ isUpdated }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
-import sw from 'src/services/ServiceWorkerController';
+import worker from 'src/services/ServiceWorkerController';
+import connection from 'src/services/ConnectionObserver';
 import counter from 'src/services/CounterService';
 
-setInterval(() => counter.increment(), 1000);
-
-setInterval(() => { fetch('/asd')}, 3000)
+// setInterval(() => counter.increment(), 1000);
 
 @Component
 export default class ClassComponent extends Vue {
@@ -39,12 +38,12 @@ export default class ClassComponent extends Vue {
     return counter.count;
   }
 
-  get offline() {
-    return sw.offline;
+  get isOffline() {
+    return connection.isOffline;
   }
 
-  get updated() {
-    return true;
+  get isUpdated() {
+    return worker.isUpdated;
   }
 
   get todoCount() {

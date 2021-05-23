@@ -1,44 +1,44 @@
-import { register } from 'register-service-worker'
-import controller from 'src/services/ServiceWorkerController';
+import ConnectionObserver from 'src/services/ConnectionObserver'
+import ServiceWorker from 'src/services/ServiceWorkerController'
 
-// The ready(), registered(), cached(), updatefound() and updated()
-// events passes a ServiceWorkerRegistration instance in their arguments.
-// ServiceWorkerRegistration: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
+// ConnectionObserver
 
-register(process.env.SERVICE_WORKER_FILE, {
-  // The registrationOptions object will be passed as the second argument
-  // to ServiceWorkerContainer.register()
-  // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register#Parameter
+ConnectionObserver.onOffline = () => {
+  ServiceWorker.offile = true;
+  console.log('No internet connection found. App is running in offline mode.')
+};
 
-  // registrationOptions: { scope: './' },
+ConnectionObserver.onError = (err) => {
+  console.error('Error while observing the connection:', err)
+};
 
-  ready (/* registration */) {
-    console.log('Service worker is active.')
-  },
+// ServiceWorker
 
-  registered (/* registration */) {
-    console.log('Service worker has been registered.')
-  },
+ServiceWorker.onReady = (/* registration */) => {
+  console.log('Service worker is active.')
+}
 
-  cached (/* registration */) {
-    console.log('Content has been cached for offline use.')
-  },
+ServiceWorker.onRegistered = (/* registration */) => {
+  console.log('Service worker has been registered.')
+}
 
-  updatefound (/* registration */) {
-    console.log('New content is downloading.')
-  },
+ServiceWorker.onCached = (/* registration */) => {
+  console.log('Content has been cached for offline use.')
+};
 
-  updated (/* registration */) {
-    controller.updated = true;
-    console.log('New content is available; please refresh.')
-  },
+ServiceWorker.onUpdateFound = (/* registration */) => {
+  console.log('New content is downloading.')
+};
 
-  offline () {
-    controller.offile = true;
-    console.log('No internet connection found. App is running in offline mode.')
-  },
+ServiceWorker.onUpdated = (/* registration */) => {
+  ServiceWorker.updated = true;
+  console.log('New content is available; please refresh.')
+};
 
-  error (err) {
-    console.error('Error during service worker registration:', err)
-  }
-})
+ServiceWorker.onError = (err) => {
+  console.error('Error during service worker registration:', err)
+};
+
+// Service worker registrantion
+
+ServiceWorker.register(process.env.SERVICE_WORKER_FILE);
