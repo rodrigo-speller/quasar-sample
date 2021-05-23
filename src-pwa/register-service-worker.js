@@ -1,4 +1,5 @@
 import { register } from 'register-service-worker'
+import controller from 'src/services/ServiceWorkerController';
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -28,10 +29,12 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   updated (/* registration */) {
+    controller.updated = true;
     console.log('New content is available; please refresh.')
   },
 
   offline () {
+    controller.offile = true;
     console.log('No internet connection found. App is running in offline mode.')
   },
 

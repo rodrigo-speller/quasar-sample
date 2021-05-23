@@ -6,19 +6,23 @@
         {{ todo.id }} - {{ todo.content }}
       </li>
     </ul>
-    <p>Test</p>
     <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
     <p>Active: {{ active ? 'yes' : 'no' }}</p>
     <p>Clicks on todos: {{ count }}</p>
+    <p>Offline: {{ offline }}</p>
+    <p>Updated: {{ updated }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
+import sw from 'src/services/ServiceWorkerController';
 import counter from 'src/services/CounterService';
 
 setInterval(() => counter.increment(), 1000);
+
+setInterval(() => { fetch('/asd')}, 3000)
 
 @Component
 export default class ClassComponent extends Vue {
@@ -33,6 +37,14 @@ export default class ClassComponent extends Vue {
 
   get count() {
     return counter.count;
+  }
+
+  get offline() {
+    return sw.offline;
+  }
+
+  get updated() {
+    return true;
   }
 
   get todoCount() {
