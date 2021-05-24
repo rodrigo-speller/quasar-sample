@@ -1,21 +1,30 @@
 <template>
-  <div>
-    <p>{{ title }}</p>
-    <ul>
-      <li v-for="todo in todos" :key="todo.id" @click="increment">
-        {{ todo.id }} - {{ todo.content }}
-      </li>
-    </ul>
-    <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
-    <p>Active: {{ active ? 'yes' : 'no' }}</p>
-    <p>Clicks on todos: {{ count }}</p>
-    <div>
-      <q-input label="Input some text" v-model="localStorageValue" />
-      <q-btn @click="localStorageValue = ''">Clear input</q-btn>
-      <q-btn @click="saveLocalStorage">Save</q-btn>
-      <q-btn @click="loadLocalStorage">Load</q-btn>
-    </div>
-  </div>
+  <q-card flat bordered>
+
+    <q-card-section class="bg-grey-1">
+      <div class="text-h6">{{ title }}</div>
+    </q-card-section>
+
+    <q-separator />
+
+    <q-card-section>
+      <ul>
+        <li v-for="todo in todos" :key="todo.id" @click="increment">
+          {{ todo.id }} - {{ todo.content }}
+        </li>
+      </ul>
+    </q-card-section>
+
+    <q-separator />
+
+    <q-card-section class="bg-grey-1">
+      <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
+      <p>Active: {{ active ? 'yes' : 'no' }}</p>
+      <p>Clicks on todos: {{ count }}</p>
+    </q-card-section>
+
+  </q-card>
+
 </template>
 
 <script lang="ts">
@@ -33,14 +42,6 @@ export default class ClassComponent extends Vue {
   @Prop(Boolean) readonly active!: boolean;
 
   localStorageValue: string = '';
-
-  saveLocalStorage() {
-    localStorage.setItem('some-text', this.localStorageValue);
-  }
-
-  loadLocalStorage() {
-    this.localStorageValue = localStorage.getItem('some-text') ?? '';
-  }
 
   increment() {
     counter.increment();
