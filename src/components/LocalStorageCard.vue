@@ -26,7 +26,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import installer from 'src/services/InstallerService'
 
 @Component
 export default class LocalStorageCard extends Vue {

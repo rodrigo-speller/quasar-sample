@@ -20,7 +20,7 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-1">
       <q-list>
         <q-item-label header class="text-grey-8">Quasar App</q-item-label>
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <EssentialLink v-for="link in menuLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue';
-import linksData from './links.json';
+import MenuLinks from './MenuLinks.json';
 
 import { Vue, Component } from 'vue-property-decorator';
 import ConnectionStatusBadge from 'components/ConnectionStatusBadge.vue'
@@ -44,7 +44,7 @@ import RefreshButton from 'components/RefreshButton.vue'
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
-  essentialLinks = linksData;
+  menuLinks = MenuLinks;
 
   get isOnline() {
     return ConnectionStatusBadge.isOnline;

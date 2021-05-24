@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ClassComponent.vue';
+import ExampleComponent from 'src/components/ExampleComponent.vue';
 
 @Component({
   components: { ExampleComponent }

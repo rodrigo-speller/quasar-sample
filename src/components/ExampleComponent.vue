@@ -32,10 +32,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
 import counter from 'src/services/CounterService';
 
-// setInterval(() => counter.increment(), 1000);
-
 @Component
-export default class ClassComponent extends Vue {
+export default class ExampleComponent extends Vue {
   @Prop({ type: String, required: true }) readonly title!: string;
   @Prop({ type: Array, default: () => [] }) readonly todos!: Todo[];
   @Prop({ type: Object, required: true }) readonly meta!: Meta;
