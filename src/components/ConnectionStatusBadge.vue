@@ -16,6 +16,10 @@ import connection from 'src/services/ConnectionObserver'
 @Component
 export default class ConnectionStatusBadge extends Vue {
 
+  static get isOnline() {
+    return connection.isOnline;
+  }
+
   get isOnline() {
     return connection.isOnline;
   }

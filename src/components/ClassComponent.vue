@@ -9,8 +9,6 @@
     <p>Count: {{ todoCount }} / {{ meta.totalCount }}</p>
     <p>Active: {{ active ? 'yes' : 'no' }}</p>
     <p>Clicks on todos: {{ count }}</p>
-    <p>Offline: {{ isOffline }}</p>
-    <p>Updated: {{ isUpdated }}</p>
     <div>
       <q-input label="Input some text" v-model="localStorageValue" />
       <q-btn @click="localStorageValue = ''">Clear input</q-btn>
@@ -23,8 +21,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
-import worker from 'src/services/ServiceWorkerController';
-import connection from 'src/services/ConnectionObserver';
 import counter from 'src/services/CounterService';
 
 // setInterval(() => counter.increment(), 1000);
@@ -52,14 +48,6 @@ export default class ClassComponent extends Vue {
 
   get count() {
     return counter.count;
-  }
-
-  get isOffline() {
-    return connection.isOffline;
-  }
-
-  get isUpdated() {
-    return worker.isUpdated;
   }
 
   get todoCount() {

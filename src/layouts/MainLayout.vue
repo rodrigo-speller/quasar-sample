@@ -9,10 +9,10 @@
           Quasar App
         </q-toolbar-title>
         <!-- Connection Status -->
-        <q-separator vertical spaced="lg" />
-        <ConnectionStatusBadge class="connection-status-container" />
+        <ConnectionStatusBadge class="q-mx-sm connection-status-container" />
+        <!-- "Refresh" button -->
+        <RefreshButton v-if="canRefresh" />
         <!-- "Install" button -->
-        <q-separator v-if="canInstall" vertical spaced="lg" />
         <InstallButton v-if="canInstall" />
       </q-toolbar>
     </q-header>
@@ -32,8 +32,6 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue'
-import ConnectionStatusBadge from 'components/ConnectionStatusBadge.vue'
-import InstallButton from 'components/InstallButton.vue'
 
 const linksData = [
   {
@@ -81,16 +79,27 @@ const linksData = [
 ];
 
 import { Vue, Component } from 'vue-property-decorator';
+import ConnectionStatusBadge from 'components/ConnectionStatusBadge.vue'
+import InstallButton from 'components/InstallButton.vue'
+import RefreshButton from 'components/RefreshButton.vue'
 
 @Component({
-  components: { EssentialLink, ConnectionStatusBadge, InstallButton }
+  components: { EssentialLink, ConnectionStatusBadge, InstallButton, RefreshButton }
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
   essentialLinks = linksData;
 
+  get isOnline() {
+    return ConnectionStatusBadge.isOnline;
+  }
+
   get canInstall() {
-    return InstallButton.canInstall;
+    return InstallButton.canInstall && this.isOnline;
+  }
+
+  get canRefresh() {
+    return RefreshButton.isUpdated && this.isOnline;
   }
 }
 

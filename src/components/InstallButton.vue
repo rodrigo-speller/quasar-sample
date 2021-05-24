@@ -1,5 +1,7 @@
 <template>
-  <q-btn v-if="canInstall" color="white" text-color="black" @click="install">Install</q-btn>
+  <q-btn flat round v-if="canInstall" icon="get_app" @click="install">
+    <q-tooltip content-style="font-size: 1em; text-align: center">Install</q-tooltip>
+  </q-btn>
 </template>
 
 <script lang="ts">
