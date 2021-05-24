@@ -7,6 +7,7 @@ const routes: RouteConfig[] = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'localstorage', component: () => import('pages/LocalStorage.vue') },
+      { path: 'postmessage', component: () => import('pages/PostMessage.vue') },
     ]
   },
 

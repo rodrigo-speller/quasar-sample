@@ -10,6 +10,11 @@
     "link": "/localstorage"
   },
   {
+    "title": "Post Message Test",
+    "icon": "school",
+    "link": "/postmessage"
+  },
+  {
     "title": "Github",
     "caption": "Source code",
     "icon": "code",
