@@ -1,7 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
     <ExampleComponent title="Example component" active :todos="todos" :meta="meta" />
-    <LocalStorageCard />
   </q-page>
 </template>
 
@@ -9,10 +8,9 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ClassComponent.vue';
-import LocalStorageCard from 'components/LocalStorageCard.vue';
 
 @Component({
-  components: { ExampleComponent, LocalStorageCard }
+  components: { ExampleComponent }
 })
 export default class PageIndex extends Vue {
 
