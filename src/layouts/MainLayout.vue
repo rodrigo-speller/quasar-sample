@@ -2,45 +2,29 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
+        <!-- Drawer button -->
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
+        <!-- Title -->
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
-        <q-btn v-if="canInstall" color="white" text-color="black" @click="install">Install</q-btn>
+        <!-- Connection Status -->
+        <q-separator vertical spaced="lg" />
+        <ConnectionStatusBadge class="connection-status-container" />
+        <!-- "Install" button -->
+        <q-separator v-if="canInstall" vertical spaced="lg" />
+        <InstallButton v-if="canInstall" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-1">
       <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item-label header class="text-grey-8">Essential Links</q-item-label>
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
     <q-page-container>
-
       <router-view />
     </q-page-container>
   </q-layout>
@@ -48,7 +32,8 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue'
-import installer from 'src/services/InstallerService'
+import ConnectionStatusBadge from 'components/ConnectionStatusBadge.vue'
+import InstallButton from 'components/InstallButton.vue'
 
 const linksData = [
   {
@@ -98,18 +83,14 @@ const linksData = [
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component({
-  components: { EssentialLink }
+  components: { EssentialLink, ConnectionStatusBadge, InstallButton }
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
   essentialLinks = linksData;
 
   get canInstall() {
-    return installer.canInstall;
-  }
-
-  async install() {
-    await installer.install();
+    return InstallButton.canInstall;
   }
 }
 
